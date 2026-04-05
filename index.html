@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krushna Jain | Premium Developer</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#050505] text-[#e0e0e0] antialiased selection:bg-[#66c285] selection:text-black">
+
+    <div class="custom-cursor hidden md:block"></div>
+
+    <div class="loader fixed inset-0 z-[9999] bg-[#050505] flex items-center justify-center">
+        <div class="w-full max-w-sm h-[1px] bg-white/20 relative overflow-hidden mx-6">
+            <div class="loader-line absolute top-0 left-0 h-full w-full bg-[#66c285] origin-left scale-x-0"></div>
+        </div>
+        <div class="absolute bottom-10 font-inter text-xs tracking-[0.4em] text-white/50 loader-text opacity-0 uppercase text-center w-full">Loading Experience</div>
+    </div>
+
+    <button id="sound-toggle" class="fixed bottom-6 right-6 md:bottom-10 md:right-12 z-50 font-syne text-[10px] md:text-xs uppercase tracking-[0.2em] text-white mix-blend-difference cursor-hover flex items-center gap-2 hover:opacity-70 transition-opacity magnetic p-2">
+        <i class="fas fa-volume-mute" id="sound-icon"></i>
+        <span id="sound-text" class="hidden sm:inline">Sound Off</span>
+    </button>
+
+    <nav class="fixed top-0 w-full z-50 p-6 md:p-10 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
+        <div class="font-syne font-bold text-xl uppercase tracking-widest pointer-events-auto cursor-hover magnetic p-2">KRUSHNA.</div>
+        
+        <div class="hidden md:flex gap-10 font-inter text-sm tracking-[0.2em] uppercase pointer-events-auto">
+            <a href="#about" class="cursor-hover relative nav-link magnetic p-2">About</a>
+            <a href="#work" class="cursor-hover relative nav-link magnetic p-2">Work</a>
+            <a href="#certifications" class="cursor-hover relative nav-link magnetic p-2">Credentials</a>
+            <a href="#contact" class="cursor-hover relative nav-link magnetic p-2">Contact</a>
+        </div>
+
+        <button id="mobile-menu-btn" class="md:hidden pointer-events-auto text-white text-2xl z-[60] relative">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-[#050505] z-[55] flex flex-col items-center justify-center gap-10 translate-y-[-100%] transition-transform duration-500 ease-in-out md:hidden">
+        <a href="#about" class="font-syne text-4xl uppercase text-white mobile-link">About</a>
+        <a href="#work" class="font-syne text-4xl uppercase text-white mobile-link">Work</a>
+        <a href="#certifications" class="font-syne text-4xl uppercase text-white mobile-link">Credentials</a>
+        <a href="#contact" class="font-syne text-4xl uppercase text-[#66c285] mobile-link">Contact</a>
+    </div>
+
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <section class="hero-section relative w-full h-[100dvh] flex flex-col justify-center items-center px-4 overflow-hidden">
+                <div class="video-container absolute top-0 left-0 w-full h-full overflow-hidden origin-center z-0">
+                    <video id="heroVideo" class="w-full h-full object-cover opacity-70" autoplay muted loop playsinline poster="image_5365f7.jpg">
+                        <source src="Video_Generation_Car_Starts_and_Drives.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/10 via-[#050505]/40 to-[#050505]"></div>
+                </div>
+
+                <div class="relative z-10 w-full max-w-7xl flex flex-col justify-center h-full pointer-events-none text-center px-2">
+                    <div class="mask-wrap mb-4"><p class="mask-text font-inter text-[#66c285] tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm">Engineering the Future</p></div>
+                    
+                    <div class="mask-wrap"><h1 class="mask-text font-syne font-bold leading-[0.85] uppercase text-white cursor-hover pointer-events-auto drop-shadow-2xl hero-title">KRUSHNA</h1></div>
+                    <div class="mask-wrap"><h1 class="mask-text font-syne font-bold leading-[0.85] uppercase text-transparent border-text cursor-hover pointer-events-auto drop-shadow-2xl hero-title mb-6">JAIN.</h1></div>
+                    
+                    <h2 class="text-lg md:text-3xl font-syne font-bold text-white uppercase h-10 mb-6">
+                        <span id="typewriter" class="border-r-4 border-[#66c285] pr-2 animate-pulse-cursor drop-shadow-lg"></span>
+                    </h2>
+                </div>
+            </section>
+
+            <section class="py-6 md:py-10 bg-[#050505] overflow-hidden flex whitespace-nowrap z-20 relative">
+                <div class="marquee-inner flex font-syne text-3xl md:text-7xl font-bold uppercase tracking-tighter text-white/10">
+                    <span class="mx-4 md:mx-8 text-white/40 border-text">C++</span> • <span class="mx-4 md:mx-8">Python</span> • <span class="mx-4 md:mx-8 text-white/40 border-text">Gen AI</span> • <span class="mx-4 md:mx-8">Frontend</span> • <span class="mx-4 md:mx-8 text-white/40 border-text">Backend</span> • 
+                    <span class="mx-4 md:mx-8 text-white/40 border-text">C++</span> • <span class="mx-4 md:mx-8">Python</span> • <span class="mx-4 md:mx-8 text-white/40 border-text">Gen AI</span> • <span class="mx-4 md:mx-8">Frontend</span> • <span class="mx-4 md:mx-8 text-white/40 border-text">Backend</span> • 
+                </div>
+            </section>
+
+            <section id="about" class="w-full py-20 md:py-32 px-6 md:px-12 relative z-10 bg-[#050505]">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-16 items-center">
+                    <div class="w-full md:w-1/2">
+                        <div class="mask-wrap mb-4 md:mb-6"><span class="mask-text font-inter text-[#66c285] tracking-[0.3em] md:tracking-[0.4em] uppercase text-[10px] md:text-xs">Craftsmanship</span></div>
+                        <div class="mask-wrap"><h2 class="mask-text font-syne text-4xl sm:text-5xl md:text-7xl font-bold uppercase leading-[0.9]">Refined</h2></div>
+                        <div class="mask-wrap mb-8 md:mb-10"><h2 class="mask-text font-syne text-4xl sm:text-5xl md:text-7xl font-bold uppercase leading-[0.9] text-white/40">by Design.</h2></div>
+                        
+                        <p class="font-inter text-white/60 text-base md:text-lg font-light leading-relaxed mb-10 scrub-text max-w-lg">
+                            I approach software development the way engineers approach automotive design: every line of code is considered, and every interface is curated for absolute composure. I specialize in building robust architectures.
+                        </p>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2 h-[40vh] md:h-[60vh] overflow-hidden rounded-2xl relative img-reveal-wrapper">
+                        <img src="Screenshot_15-3-2026_193355_www.instagram.com.jpg" class="img-reveal object-cover w-full h-full scale-125 grayscale hover:grayscale-0 transition-all duration-1000" alt="Tech">
+                        <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 w-24 h-24 md:w-40 md:h-40 glass-card p-2 rounded-xl shadow-2xl z-30 tilt-card cursor-hover">
+                            <div class="inner-glare rounded-xl"></div>
+                            <img src="kris.jpeg" class="w-full h-full object-cover rounded-lg shadow-inner grayscale hover:grayscale-0 transition-all duration-700">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="work" class="horizontal-scroll-wrapper min-h-screen w-full bg-[#0a0a0a] overflow-hidden relative border-t border-white/5 flex flex-col md:flex-row md:items-center py-16 md:py-0">
+                <div class="md:absolute md:top-10 md:left-12 z-20 mix-blend-difference text-white mb-8 px-6 md:px-0">
+                    <span class="font-inter tracking-[0.4em] uppercase text-xs">The Collection</span>
+                </div>
+                
+                <div class="horizontal-container flex flex-col md:flex-row h-auto md:h-full w-full md:w-[300vw]">
+                    
+                    <div class="horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col justify-center px-6 md:px-24 py-12 md:py-0">
+                        <h2 class="font-syne text-5xl md:text-[8vw] font-bold uppercase leading-none text-white drop-shadow-2xl">Featured<br><span class="border-text text-transparent">Models.</span></h2>
+                        <p class="font-inter text-[#66c285] tracking-[0.2em] uppercase mt-4 text-[10px] md:text-sm hidden md:block">Scroll to explore <i class="fas fa-arrow-right ml-2 animate-pulse"></i></p>
+                    </div>
+
+                    <div class="horizontal-item w-full md:w-[100vw] h-auto md:h-full flex items-center justify-center px-6 md:px-24 py-12 md:py-0">
+                        <div class="w-full max-w-6xl flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+                            <div class="w-full md:w-[60%] h-[30vh] md:h-[65vh] rounded-2xl overflow-hidden glass-card tilt-card cursor-hover relative group">
+                                <div class="inner-glare"></div>
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" alt="Store Dashboard">
+                            </div>
+                            <div class="w-full md:w-[40%] flex flex-col">
+                                <div class="text-[#66c285] text-2xl md:text-3xl mb-4"><i class="fas fa-store"></i></div>
+                                <h3 class="font-syne text-3xl md:text-4xl font-bold uppercase mb-2 md:mb-4">Store Dashboard</h3>
+                                <p class="font-inter text-white/50 font-light mb-6 md:mb-8 text-sm md:text-base">Business application engineered for customer management and robust inventory tracking.</p>
+                                <a href="https://krishna7672.github.io/store-dashboard/" target="_blank" class="font-syne uppercase text-[10px] md:text-xs font-bold tracking-[0.2em] border border-white text-white px-6 py-3 hover:bg-white hover:text-black transition-colors w-max cursor-hover magnetic inline-block">Launch App</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="horizontal-item w-full md:w-[100vw] h-auto md:h-full flex items-center justify-center px-6 md:px-24 py-12 md:py-0">
+                        <div class="w-full max-w-6xl flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+                            <div class="w-full md:w-[60%] h-[30vh] md:h-[65vh] rounded-2xl overflow-hidden glass-card tilt-card cursor-hover relative group">
+                                <div class="inner-glare"></div>
+                                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" alt="Expense Tracker">
+                            </div>
+                            <div class="w-full md:w-[40%] flex flex-col">
+                                <div class="text-[#66c285] text-2xl md:text-3xl mb-4"><i class="fas fa-wallet"></i></div>
+                                <h3 class="font-syne text-3xl md:text-4xl font-bold uppercase mb-2 md:mb-4">Expense Tracker</h3>
+                                <p class="font-inter text-white/50 font-light mb-6 md:mb-8 text-sm md:text-base">Personal finance tool crafted to log daily expenditures and visualize budget limits with precision.</p>
+                                <a href="https://krishna7672.github.io/smart-expense-tracker/" target="_blank" class="font-syne uppercase text-[10px] md:text-xs font-bold tracking-[0.2em] bg-[#66c285] text-black px-6 py-3 hover:bg-white hover:text-black transition-colors w-max cursor-hover magnetic inline-block">Launch App</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="certifications" class="cert-scroll-wrapper min-h-screen w-full bg-[#050505] overflow-hidden relative border-t border-white/5 flex flex-col md:flex-row md:items-center py-16 md:py-0">
+                <div class="md:absolute md:top-10 md:left-12 z-20 mix-blend-difference text-white mb-8 px-6 md:px-0">
+                    <span class="font-inter tracking-[0.4em] uppercase text-xs">Credentials</span>
+                </div>
+                
+                <div class="cert-horizontal-container flex flex-col md:flex-row h-auto md:h-full w-full md:w-[300vw]">
+                    
+                    <div class="cert-horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col justify-center px-6 md:px-24 py-12 md:py-0">
+                        <h2 class="font-syne text-5xl md:text-[8vw] font-bold uppercase leading-none text-white drop-shadow-2xl">Certified<br><span class="border-text text-transparent">Performance.</span></h2>
+                        <p class="font-inter text-[#66c285] tracking-[0.2em] uppercase mt-4 text-[10px] md:text-sm hidden md:block">Scroll to verify <i class="fas fa-arrow-right ml-2 animate-pulse"></i></p>
+                    </div>
+
+                    <div class="cert-horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col md:flex-row items-center justify-center px-6 md:px-24 gap-6 md:gap-12 py-6 md:py-0">
+                        <div class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px]">
+                            <div class="inner-glare"></div>
+                            <img src="gen.jpeg" class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">Gen AI</h4>
+                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">Sololearn</p>
+                        </div>
+                        <div class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px]">
+                            <div class="inner-glare"></div>
+                            <img src="Ai.jpeg" class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">AI Basics</h4>
+                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">UniAthena & CIQ</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col md:flex-row items-center justify-center px-6 md:px-24 gap-6 md:gap-12 py-6 md:py-0">
+                        <div class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px]">
+                            <div class="inner-glare"></div>
+                            <img src="cpp.jpeg" class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">Intro to C++</h4>
+                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">Sololearn</p>
+                        </div>
+                        <div class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px]">
+                            <div class="inner-glare"></div>
+                            <img src="vibe.jpeg" class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">Vibe Coding</h4>
+                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">Sololearn</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="contact" class="w-full min-h-screen bg-white text-[#050505] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+                <p class="font-inter font-bold tracking-[0.3em] md:tracking-[0.5em] uppercase text-[10px] md:text-xs mb-6 md:mb-8 text-[#66c285] scrub-up">Ready for the future?</p>
+                <a href="mailto:kj9013866@gmail.com" class="font-syne font-black text-4xl sm:text-5xl md:text-[10vw] leading-[0.9] uppercase tracking-tighter hover:text-[#66c285] transition-colors cursor-hover scrub-scale magnetic inline-block px-4 py-2">
+                    INITIATE<br>PROJECT.
+                </a>
+                <div class="mt-8 md:mt-12 flex flex-col md:flex-row gap-4 md:gap-8 font-inter text-[10px] md:text-sm font-bold uppercase tracking-widest scrub-up">
+                    <a href="https://github.com/Krishna7672" target="_blank" class="cursor-hover hover:text-[#66c285] transition-colors magnetic p-2">GitHub</a>
+                    <a href="https://www.linkedin.com/in/krushna-jain-56156b370" target="_blank" class="cursor-hover hover:text-[#66c285] transition-colors magnetic p-2">LinkedIn</a>
+                    <a href="https://www.instagram.com/krishnajain7621" target="_blank" class="cursor-hover hover:text-[#66c285] transition-colors magnetic p-2">Instagram</a>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="fixed inset-0 z-[9998] pointer-events-none opacity-[0.03] mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
