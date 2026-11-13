@@ -1,355 +1,1182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krushna Jain | Premium Developer</title>
+    <meta name="theme-color" content="#060709">
+    <title>Krushna Jain | Full Stack Software Engineer & Creative Technologist</title>
+    <meta name="description"
+        content="Portfolio of Krushna Jain — Full Stack Software Engineer specializing in C++, Python, TypeScript, React, Local-First POS Systems, and AI/Computer Vision.">
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@500;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            900: '#064e3b',
+                        },
+                        dark: {
+                            bg: '#060709',
+                            card: '#0e1117',
+                            border: '#1f2430',
+                        }
+                    },
+                    fontFamily: {
+                        syne: ['Syne', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
 
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-[#050505] text-[#e0e0e0] antialiased selection:bg-[#66c285] selection:text-black">
+<body class="bg-[#060709] text-[#f3f4f6] antialiased selection:bg-[#10b981] selection:text-black">
+
+    <!-- Noise Texture Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Ambient Atmospheric Glows -->
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
     <div class="ambient-glow glow-3"></div>
 
+    <!-- Custom Magnetic Cursor (Desktop) -->
     <div class="custom-cursor hidden md:block"></div>
+    <div class="custom-cursor-follower hidden md:block"></div>
 
-    <div class="loader fixed inset-0 z-[9999] bg-[#050505] flex items-center justify-center">
-        <div class="w-full max-w-sm h-[1px] bg-white/20 relative overflow-hidden mx-6">
-            <div class="loader-line absolute top-0 left-0 h-full w-full bg-[#66c285] origin-left scale-x-0"></div>
+    <!-- Preloader Sequence -->
+    <div id="preloader"
+        class="fixed inset-0 z-[99999] bg-[#060709] flex flex-col items-center justify-center px-6">
+        <div class="w-full max-w-md flex flex-col items-center">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="w-3 h-3 rounded-full bg-[#10b981] animate-ping"></span>
+                <span class="font-mono text-xs tracking-[0.3em] uppercase text-[#10b981]">SYSTEM BOOT // KRUSHNA
+                    JAIN</span>
+            </div>
+            <div class="w-full h-[2px] bg-white/10 rounded-full overflow-hidden relative">
+                <div class="loader-line h-full bg-gradient-to-r from-[#10b981] to-[#6ee7b7] w-0 transition-all"></div>
+            </div>
+            <div class="w-full flex justify-between items-center mt-4 font-mono text-xs text-white/40">
+                <span>LOADING ASSETS</span>
+                <span class="loader-counter text-[#10b981] font-semibold">0%</span>
+            </div>
         </div>
-        <div
-            class="absolute bottom-10 font-inter text-xs tracking-[0.4em] text-white/50 loader-text opacity-0 uppercase text-center w-full">
-            Loading Experience</div>
     </div>
 
+    <!-- Floating Audio & Experience Controls -->
     <button id="sound-toggle"
-        class="fixed bottom-6 right-6 md:bottom-10 md:right-12 z-50 font-syne text-[10px] md:text-xs uppercase tracking-[0.2em] text-white mix-blend-difference cursor-hover flex items-center gap-2 hover:opacity-70 transition-opacity magnetic p-2">
-        <i class="fas fa-volume-mute" id="sound-icon"></i>
-        <span id="sound-text" class="hidden sm:inline">Sound Off</span>
+        class="fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-full bg-[#0e1117]/80 backdrop-blur-xl border border-white/10 text-xs font-mono uppercase tracking-widest text-white/70 hover:text-white hover:border-[#10b981]/50 transition-all shadow-xl flex items-center gap-2.5 cursor-hover magnetic"
+        title="Toggle Ambient Web Audio">
+        <span class="flex items-center gap-1">
+            <span class="audio-bar"></span>
+            <span class="audio-bar"></span>
+            <span class="audio-bar"></span>
+        </span>
+        <span id="sound-text">Sound Off</span>
     </button>
 
-    <nav
-        class="fixed top-0 w-full z-50 p-6 md:p-10 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
-        <div
-            class="font-syne font-bold text-xl uppercase tracking-widest pointer-events-auto cursor-hover magnetic p-2">
-            KRUSHNA.</div>
+    <!-- Navigation Header -->
+    <header
+        class="fixed top-0 left-0 w-full z-50 px-6 py-4 md:px-12 md:py-6 transition-all duration-300">
+        <nav
+            class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5 rounded-full bg-[#0d0f14]/70 backdrop-blur-xl border border-white/10 shadow-2xl">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2 group cursor-hover">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#10b981] shadow-[0_0_12px_#10b981]"></span>
+                <span
+                    class="font-syne font-bold text-lg md:text-xl tracking-wider text-white group-hover:text-[#10b981] transition-colors">
+                    KRUSHNA<span class="text-[#10b981]">.</span>
+                </span>
+            </a>
 
-        <div class="hidden md:flex gap-10 font-inter text-sm tracking-[0.2em] uppercase pointer-events-auto">
-            <a href="#about" class="cursor-hover relative nav-link magnetic p-2">About</a>
-            <a href="#work" class="cursor-hover relative nav-link magnetic p-2">Work</a>
-            <a href="#certifications" class="cursor-hover relative nav-link magnetic p-2">Credentials</a>
-            <a href="#contact" class="cursor-hover relative nav-link magnetic p-2">Contact</a>
-        </div>
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center gap-8 font-inter text-xs tracking-[0.18em] uppercase text-white/70">
+                <a href="#work" class="nav-link hover:text-white transition-colors cursor-hover">Work</a>
+                <a href="#skills" class="nav-link hover:text-white transition-colors cursor-hover">Skills</a>
+                <a href="#about" class="nav-link hover:text-white transition-colors cursor-hover">About</a>
+                <a href="#credentials" class="nav-link hover:text-white transition-colors cursor-hover">Credentials</a>
+                <a href="#contact" class="nav-link hover:text-white transition-colors cursor-hover">Contact</a>
+            </div>
 
-        <button id="mobile-menu-btn" class="md:hidden pointer-events-auto text-white text-2xl z-[60] relative">
-            <i class="fas fa-bars"></i>
-        </button>
-    </nav>
+            <!-- Header Action Button -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#contact"
+                    class="px-5 py-2 rounded-full text-xs font-syne font-bold tracking-wider uppercase bg-[#10b981] text-black hover:bg-white transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] cursor-hover magnetic">
+                    Let's Talk
+                </a>
+            </div>
 
+            <!-- Mobile Hamburger Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white/80 hover:text-white p-2" aria-label="Toggle Menu">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
     <div id="mobile-menu"
-        class="fixed inset-0 bg-[#050505] z-[55] flex flex-col items-center justify-center gap-10 translate-y-[-100%] transition-transform duration-500 ease-in-out md:hidden">
-        <a href="#about" class="font-syne text-4xl uppercase text-white mobile-link">About</a>
-        <a href="#work" class="font-syne text-4xl uppercase text-white mobile-link">Work</a>
-        <a href="#certifications" class="font-syne text-4xl uppercase text-white mobile-link">Credentials</a>
-        <a href="#contact" class="font-syne text-4xl uppercase text-[#66c285] mobile-link">Contact</a>
+        class="fixed inset-0 bg-[#060709]/98 backdrop-blur-2xl z-40 flex flex-col justify-center items-center gap-8 translate-y-[-100%] transition-transform duration-500 md:hidden">
+        <a href="#work" class="mobile-nav-link font-syne text-3xl font-bold uppercase text-white hover:text-[#10b981]">Work</a>
+        <a href="#skills" class="mobile-nav-link font-syne text-3xl font-bold uppercase text-white hover:text-[#10b981]">Skills</a>
+        <a href="#about" class="mobile-nav-link font-syne text-3xl font-bold uppercase text-white hover:text-[#10b981]">About</a>
+        <a href="#credentials" class="mobile-nav-link font-syne text-3xl font-bold uppercase text-white hover:text-[#10b981]">Credentials</a>
+        <a href="#contact" class="mobile-nav-link font-syne text-3xl font-bold uppercase text-[#10b981]">Contact</a>
+        <div class="flex gap-6 mt-6">
+            <a href="https://github.com/Krishna7672" target="_blank" class="text-white/60 hover:text-white text-2xl"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/krushna-jain-56156b370" target="_blank" class="text-white/60 hover:text-white text-2xl"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/krishnajain7621" target="_blank" class="text-white/60 hover:text-white text-2xl"><i class="fab fa-instagram"></i></a>
+        </div>
     </div>
 
-    <div id="smooth-wrapper">
+    <!-- Smooth Scrolling Outer Wrapper -->
+    <main id="smooth-wrapper">
         <div id="smooth-content">
 
+            <!-- =================================================================
+                 HERO SECTION
+                 ================================================================= -->
             <section
-                class="hero-section relative w-full h-[100dvh] flex flex-col justify-center items-center px-4 overflow-hidden">
-                <div class="video-container absolute top-0 left-0 w-full h-full overflow-hidden origin-center z-0">
-                    <video id="heroVideo" class="w-full h-full object-cover opacity-70" autoplay muted loop playsinline
-                        poster="image_5365f7.jpg">
-                        <source src="Video_Generation_Car_Starts_and_Drives.mp4" type="video/mp4">
-                    </video>
-                    <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/10 via-[#050505]/40 to-[#050505]">
-                    </div>
-                </div>
+                class="relative w-full min-h-screen flex flex-col justify-center items-center px-6 pt-32 pb-20 overflow-hidden cyber-grid">
+                <!-- Interactive Constellation Canvas -->
+                <canvas id="heroCanvas"></canvas>
 
-                <div
-                    class="relative z-10 w-full max-w-7xl flex flex-col justify-center h-full pointer-events-none text-center px-2">
-                    <div class="mask-wrap mb-4">
-                        <p
-                            class="mask-text font-inter text-[#66c285] tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm">
-                            Engineering the Future</p>
-                    </div>
-
-                    <div class="mask-wrap">
-                        <h1
-                            class="mask-text font-syne font-bold leading-[0.85] uppercase text-white cursor-hover pointer-events-auto drop-shadow-2xl hero-title">
-                            KRUSHNA</h1>
-                    </div>
-                    <div class="mask-wrap">
-                        <h1
-                            class="mask-text font-syne font-bold leading-[0.85] uppercase text-transparent border-text cursor-hover pointer-events-auto drop-shadow-2xl hero-title mb-6">
-                            JAIN.</h1>
-                    </div>
-
-                    <h2
-                        class="text-lg md:text-3xl font-syne font-bold text-white uppercase h-10 mb-6 bg-gradient-to-r from-white via-[#66c285] to-white text-transparent bg-clip-text">
-                        <span id="typewriter"
-                            class="border-r-4 border-[#66c285] pr-2 animate-pulse-cursor drop-shadow-lg"></span>
-                    </h2>
-                </div>
-            </section>
-
-            <section
-                class="py-6 md:py-10 bg-[#050505] overflow-hidden flex whitespace-nowrap z-20 relative border-y border-white/5">
-                <div class="marquee-track flex">
+                <div class="relative z-10 w-full max-w-6xl flex flex-col items-center text-center">
+                    
+                    <!-- Availability Telemetry Badge -->
                     <div
-                        class="marquee-content flex font-syne text-3xl md:text-7xl font-bold uppercase tracking-tighter text-white/10">
-                        <span class="mx-4 md:mx-8 text-white/40 border-text">C++</span> • <span
-                            class="mx-4 md:mx-8">Python</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Gen AI</span> • <span
-                            class="mx-4 md:mx-8">Frontend</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Backend</span> •
-                        <span class="mx-4 md:mx-8 text-white/40 border-text">C++</span> • <span
-                            class="mx-4 md:mx-8">Python</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Gen AI</span> • <span
-                            class="mx-4 md:mx-8">Frontend</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Backend</span> •
+                        class="hero-badge inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-8">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981]"></span>
+                        </span>
+                        <span class="font-mono text-[11px] md:text-xs text-white/80 uppercase tracking-widest">
+                            Available for Opportunities // India (IST)
+                        </span>
                     </div>
-                    <div class="marquee-content flex font-syne text-3xl md:text-7xl font-bold uppercase tracking-tighter text-white/10"
-                        aria-hidden="true">
-                        <span class="mx-4 md:mx-8 text-white/40 border-text">C++</span> • <span
-                            class="mx-4 md:mx-8">Python</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Gen AI</span> • <span
-                            class="mx-4 md:mx-8">Frontend</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Backend</span> •
-                        <span class="mx-4 md:mx-8 text-white/40 border-text">C++</span> • <span
-                            class="mx-4 md:mx-8">Python</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Gen AI</span> • <span
-                            class="mx-4 md:mx-8">Frontend</span> • <span
-                            class="mx-4 md:mx-8 text-white/40 border-text">Backend</span> •
+
+                    <!-- Kinetic Main Headline -->
+                    <div class="overflow-hidden">
+                        <h1 class="hero-title hero-title-line font-syne font-extrabold uppercase text-white drop-shadow-2xl">
+                            KRUSHNA
+                        </h1>
                     </div>
+                    <div class="overflow-hidden mb-6">
+                        <h1 class="hero-title hero-title-line font-syne font-extrabold uppercase border-text">
+                            JAIN.
+                        </h1>
+                    </div>
+
+                    <!-- Dynamic Typewriter Subheader -->
+                    <div class="hero-sub-text min-h-[3rem] flex items-center justify-center mb-8">
+                        <h2 class="font-syne font-semibold text-lg sm:text-2xl md:text-3xl text-white/90">
+                            <span id="typewriter" class="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#10b981] to-white"></span>
+                            <span class="caret-pulse"></span>
+                        </h2>
+                    </div>
+
+                    <!-- Intro Narrative -->
+                    <p class="hero-sub-text max-w-2xl font-inter font-light text-white/60 text-sm sm:text-base md:text-lg leading-relaxed mb-10">
+                        Architecting high-performance web systems, resilient local-first POS platforms, and AI/Computer Vision solutions with deep focus on speed, precision, and modern aesthetic elegance.
+                    </p>
+
+                    <!-- Hero Call to Action Buttons -->
+                    <div class="hero-actions flex flex-wrap items-center justify-center gap-4 mb-16">
+                        <a href="#work" class="btn-primary cursor-hover magnetic">
+                            <span>Explore Projects</span>
+                            <i class="fas fa-arrow-down text-xs"></i>
+                        </a>
+                        <a href="https://github.com/Krishna7672" target="_blank" rel="noopener noreferrer"
+                            class="btn-outline cursor-hover magnetic">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Profile</span>
+                        </a>
+                        <button class="copy-email-btn btn-outline cursor-hover magnetic" title="Copy email to clipboard">
+                            <i class="far fa-copy text-xs text-[#10b981]"></i>
+                            <span>Copy Email</span>
+                        </button>
+                    </div>
+
+                    <!-- Key Telemetry Metrics Bar -->
+                    <div
+                        class="hero-stats w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-2xl glass-card">
+                        <div class="flex flex-col items-center justify-center p-3 border-r border-white/5 last:border-none">
+                            <span class="font-syne text-2xl md:text-4xl font-extrabold text-white">10+</span>
+                            <span class="font-mono text-[10px] md:text-xs text-[#10b981] uppercase tracking-wider mt-1">Repositories</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-3 border-r border-white/5 last:border-none">
+                            <span class="font-syne text-2xl md:text-4xl font-extrabold text-white">100%</span>
+                            <span class="font-mono text-[10px] md:text-xs text-[#10b981] uppercase tracking-wider mt-1">Offline Capable</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-3 border-r border-white/5 last:border-none">
+                            <span class="font-syne text-2xl md:text-4xl font-extrabold text-white">4+</span>
+                            <span class="font-mono text-[10px] md:text-xs text-[#10b981] uppercase tracking-wider mt-1">Certifications</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-3">
+                            <span class="font-syne text-2xl md:text-4xl font-extrabold text-white">&lt;100ms</span>
+                            <span class="font-mono text-[10px] md:text-xs text-[#10b981] uppercase tracking-wider mt-1">Real-time UX</span>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
-            <section id="about" class="w-full py-20 md:py-32 px-6 md:px-12 relative z-10 bg-[#050505]">
-                <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-16 items-center">
-                    <div class="w-full md:w-1/2">
-                        <div class="mask-wrap mb-4 md:mb-6"><span
-                                class="mask-text font-inter text-[#66c285] tracking-[0.3em] md:tracking-[0.4em] uppercase text-[10px] md:text-xs">Craftsmanship</span>
-                        </div>
-                        <div class="mask-wrap">
-                            <h2
-                                class="mask-text font-syne text-4xl sm:text-5xl md:text-7xl font-bold uppercase leading-[0.9]">
-                                Refined</h2>
-                        </div>
-                        <div class="mask-wrap mb-8 md:mb-10">
-                            <h2
-                                class="mask-text font-syne text-4xl sm:text-5xl md:text-7xl font-bold uppercase leading-[0.9] text-white/40">
-                                by Design.</h2>
-                        </div>
+            <!-- =================================================================
+                 INFINITE DUAL-ROW MARQUEE
+                 ================================================================= -->
+            <section class="py-6 border-y border-white/10 bg-[#080a0e] overflow-hidden flex flex-col gap-4">
+                <!-- Forward Track -->
+                <div class="marquee-track flex font-syne text-xl md:text-4xl font-bold uppercase tracking-tight text-white/20 whitespace-nowrap">
+                    <span class="mx-6 text-white/50 border-text">C++</span> • 
+                    <span class="mx-6 text-white">Python</span> • 
+                    <span class="mx-6 text-[#10b981]">TypeScript</span> • 
+                    <span class="mx-6 text-white/50 border-text">React 18</span> • 
+                    <span class="mx-6 text-white">Tailwind CSS</span> • 
+                    <span class="mx-6 text-white/50 border-text">Computer Vision</span> • 
+                    <span class="mx-6 text-[#10b981]">Dexie.js / IndexedDB</span> • 
+                    <span class="mx-6 text-white">GSAP & Three.js</span> • 
+                    <!-- Duplicate for seamless scroll -->
+                    <span class="mx-6 text-white/50 border-text">C++</span> • 
+                    <span class="mx-6 text-white">Python</span> • 
+                    <span class="mx-6 text-[#10b981]">TypeScript</span> • 
+                    <span class="mx-6 text-white/50 border-text">React 18</span> • 
+                    <span class="mx-6 text-white">Tailwind CSS</span> • 
+                    <span class="mx-6 text-white/50 border-text">Computer Vision</span> • 
+                    <span class="mx-6 text-[#10b981]">Dexie.js / IndexedDB</span> • 
+                    <span class="mx-6 text-white">GSAP & Three.js</span> • 
+                </div>
 
-                        <p
-                            class="font-inter text-white/60 text-base md:text-lg font-light leading-relaxed mb-10 scrub-text max-w-lg">
-                            I approach software development the way engineers approach automotive design: every line of
-                            code is considered, and every interface is curated for absolute composure. I specialize in
-                            building robust architectures.
+                <!-- Reverse Track -->
+                <div class="marquee-track-reverse flex font-mono text-xs md:text-sm uppercase tracking-[0.25em] text-[#10b981]/50 whitespace-nowrap">
+                    <span class="mx-6">LOCAL-FIRST RESILIENCE</span> // 
+                    <span class="mx-6 text-white/70">ZERO SUBSCRIPTION APIS</span> // 
+                    <span class="mx-6">REAL-TIME HAND TRACKING</span> // 
+                    <span class="mx-6 text-white/70">STATE BANK OF INDIA TOKENS</span> // 
+                    <span class="mx-6">3D GLASSMORPHISM VISUALS</span> // 
+                    <span class="mx-6 text-white/70">HIGH VELOCITY CHECKOUT</span> // 
+                    <!-- Duplicate -->
+                    <span class="mx-6">LOCAL-FIRST RESILIENCE</span> // 
+                    <span class="mx-6 text-white/70">ZERO SUBSCRIPTION APIS</span> // 
+                    <span class="mx-6">REAL-TIME HAND TRACKING</span> // 
+                    <span class="mx-6 text-white/70">STATE BANK OF INDIA TOKENS</span> // 
+                    <span class="mx-6">3D GLASSMORPHISM VISUALS</span> // 
+                    <span class="mx-6 text-white/70">HIGH VELOCITY CHECKOUT</span> // 
+                </div>
+            </section>
+
+            <!-- =================================================================
+                 FEATURED WORK / PROJECTS SHOWCASE
+                 ================================================================= -->
+            <section id="work" class="w-full py-24 md:py-32 px-6 md:px-12 relative z-10 bg-[#060709]">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <!-- Section Header -->
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal-up">
+                        <div>
+                            <span class="font-mono text-xs md:text-sm text-[#10b981] tracking-[0.3em] uppercase block mb-3">
+                                // 01. Portfolio Repository Showcase
+                            </span>
+                            <h2 class="font-syne text-4xl sm:text-5xl md:text-7xl font-extrabold uppercase leading-none text-white">
+                                FEATURED<br><span class="border-text">WORKS.</span>
+                            </h2>
+                        </div>
+                        <p class="font-inter text-white/50 text-sm md:text-base max-w-md font-light">
+                            Production-grade web systems, offline POS engines, banking queue platforms, and AI computer vision experiments.
                         </p>
                     </div>
 
-                    <div
-                        class="w-full md:w-1/2 h-[40vh] md:h-[60vh] overflow-hidden rounded-2xl relative img-reveal-wrapper">
-                        <img src="Screenshot_15-3-2026_193355_www.instagram.com.jpg"
-                            class="img-reveal object-cover w-full h-full scale-125 grayscale hover:grayscale-0 transition-all duration-1000"
-                            alt="Tech">
-                        <div
-                            class="absolute bottom-4 right-4 md:bottom-6 md:right-6 w-24 h-24 md:w-40 md:h-40 glass-card p-2 rounded-xl shadow-2xl z-30 tilt-card cursor-hover">
-                            <div class="inner-glare rounded-xl"></div>
-                            <img src="kris.jpeg"
-                                class="w-full h-full object-cover rounded-lg shadow-inner grayscale hover:grayscale-0 transition-all duration-700">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="work"
-                class="horizontal-scroll-wrapper min-h-screen w-full bg-[#0a0a0a] overflow-hidden relative border-t border-white/5 flex flex-col md:flex-row md:items-center py-16 md:py-0">
-                <div class="md:absolute md:top-10 md:left-12 z-20 mix-blend-difference text-white mb-8 px-6 md:px-0">
-                    <span class="font-inter tracking-[0.4em] uppercase text-xs">The Collection</span>
-                </div>
-
-                <div class="horizontal-container flex flex-col md:flex-row h-auto md:h-full w-full md:w-[300vw]">
-
-                    <div
-                        class="horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col justify-center px-6 md:px-24 py-12 md:py-0">
-                        <h2
-                            class="font-syne text-5xl md:text-[8vw] font-bold uppercase leading-none text-white drop-shadow-2xl">
-                            Featured<br><span class="border-text text-transparent">Models.</span></h2>
-                        <p
-                            class="font-inter text-[#66c285] tracking-[0.2em] uppercase mt-4 text-[10px] md:text-sm hidden md:block">
-                            Scroll to explore <i class="fas fa-arrow-right ml-2 animate-pulse"></i></p>
+                    <!-- Category Filter Tabs -->
+                    <div class="flex flex-wrap items-center gap-3 mb-12 reveal-up">
+                        <button class="filter-btn active cursor-hover" data-filter="all">All Systems (6)</button>
+                        <button class="filter-btn cursor-hover" data-filter="pos">POS & Offline (3)</button>
+                        <button class="filter-btn cursor-hover" data-filter="ai">AI & Vision (1)</button>
+                        <button class="filter-btn cursor-hover" data-filter="fintech">FinTech & Visuals (2)</button>
                     </div>
 
-                    <div
-                        class="horizontal-item w-full md:w-[100vw] h-auto md:h-full flex items-center justify-center px-6 md:px-24 py-12 md:py-0">
-                        <div class="w-full max-w-6xl flex flex-col md:flex-row gap-6 md:gap-10 items-center">
-                            <div
-                                class="w-full md:w-[60%] h-[30vh] md:h-[65vh] rounded-2xl overflow-hidden glass-card tilt-card floating-card cursor-hover relative group">
-                                <div class="inner-glare"></div>
-                                <div class="w-full h-full overflow-hidden absolute inset-0 rounded-2xl">
-                                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
-                                        class="parallax-img w-full h-[115%] -mt-[7.5%] md:w-[115%] md:h-full md:-mt-0 md:-ml-[7.5%] object-cover transform group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0"
-                                        alt="Store Dashboard">
+                    <!-- Projects Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <!-- ================= PROJECT 01: Mohit Kirana ================= -->
+                        <div class="project-card flex flex-col rounded-2xl glass-card tilt-card group"
+                            data-category="pos">
+                            <div class="inner-glare"></div>
+                            
+                            <!-- Project Header Visual -->
+                            <div class="project-media-wrap h-52 relative border-b border-white/5 flex items-center justify-center p-6 bg-gradient-to-br from-[#064e3b]/30 via-[#0d1117] to-[#060709]">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-[#10b981]/20 text-[#6ee7b7] border border-[#10b981]/30">
+                                        FLAGSHIP POS
+                                    </span>
+                                </div>
+                                <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                    <a href="https://github.com/Krishna7672/Mohit-Kirana" target="_blank"
+                                        class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:text-white border border-white/10 hover:border-[#10b981] transition-colors"
+                                        title="View Source on GitHub">
+                                        <i class="fab fa-github text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="text-center group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fas fa-cash-register text-5xl text-[#10b981] drop-shadow-[0_0_20px_rgba(16,185,129,0.5)] mb-3"></i>
+                                    <div class="font-syne font-bold text-white text-lg tracking-wider">MOHIT KIRANA</div>
+                                    <div class="font-mono text-[10px] text-white/50">LOCAL-FIRST POS ENGINE</div>
                                 </div>
                             </div>
-                            <div class="w-full md:w-[40%] flex flex-col relative z-10">
-                                <div class="text-[#66c285] text-2xl md:text-3xl mb-4"><i
-                                        class="fas fa-store drop-shadow-[0_0_15px_rgba(102,194,133,0.5)]"></i></div>
-                                <h3
-                                    class="font-syne text-3xl md:text-4xl font-bold uppercase mb-2 md:mb-4 bg-gradient-to-br from-white to-white/40 text-transparent bg-clip-text">
-                                    Store Dashboard</h3>
-                                <p class="font-inter text-white/50 font-light mb-6 md:mb-8 text-sm md:text-base">
-                                    Business application engineered for customer management and robust inventory
-                                    tracking.</p>
-                                <a href="https://krishna7672.github.io/store-dashboard/" target="_blank"
-                                    class="premium-btn w-max inline-flex cursor-hover magnetic"><span
-                                        class="relative z-10 font-syne uppercase text-[10px] md:text-xs font-bold tracking-[0.2em] text-white group-hover:text-black">Launch
-                                        App</span></a>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div
-                        class="horizontal-item w-full md:w-[100vw] h-auto md:h-full flex items-center justify-center px-6 md:px-24 py-12 md:py-0">
-                        <div class="w-full max-w-6xl flex flex-col md:flex-row gap-6 md:gap-10 items-center">
-                            <div
-                                class="w-full md:w-[60%] h-[30vh] md:h-[65vh] rounded-2xl overflow-hidden glass-card tilt-card floating-card cursor-hover relative group">
-                                <div class="inner-glare"></div>
-                                <div class="w-full h-full overflow-hidden absolute inset-0 rounded-2xl">
-                                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop"
-                                        class="parallax-img w-full h-[115%] -mt-[7.5%] md:w-[115%] md:h-full md:-mt-0 md:-ml-[7.5%] object-cover transform group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0"
-                                        alt="Expense Tracker">
+                            <!-- Card Body -->
+                            <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                                        <span class="font-mono text-xs text-[#10b981] uppercase tracking-wider">Enterprise POS // Offline</span>
+                                    </div>
+                                    <h3 class="font-syne text-2xl font-bold text-white mb-3 group-hover:text-[#10b981] transition-colors">
+                                        Mohit Kirana POS
+                                    </h3>
+                                    <p class="font-inter text-white/60 text-sm font-light mb-6 line-clamp-3">
+                                        Production grocery management built 100% free of paid APIs. Features instant product search, barcode scanning, client-side IndexedDB persistence, receipt printing, and WhatsApp shareable invoices.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <!-- Tech Tags -->
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="tech-pill"><i class="fab fa-react text-[#10b981]"></i> TypeScript</span>
+                                        <span class="tech-pill">Dexie / IndexedDB</span>
+                                        <span class="tech-pill">Tailwind CSS</span>
+                                        <span class="tech-pill">Offline First</span>
+                                    </div>
+
+                                    <!-- Action Links -->
+                                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                        <a href="https://mohitkirana.vercel.app" target="_blank"
+                                            class="inline-flex items-center gap-2 font-syne text-xs uppercase tracking-widest font-bold text-white group-hover:text-[#10b981] transition-colors cursor-hover">
+                                            <span>Launch Live App</span>
+                                            <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                        </a>
+                                        <a href="https://github.com/Krishna7672/Mohit-Kirana" target="_blank"
+                                            class="font-mono text-xs text-white/50 hover:text-white transition-colors cursor-hover">
+                                            <span>Source Code</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="w-full md:w-[40%] flex flex-col relative z-10">
-                                <div class="text-[#66c285] text-2xl md:text-3xl mb-4"><i
-                                        class="fas fa-wallet drop-shadow-[0_0_15px_rgba(102,194,133,0.5)]"></i></div>
-                                <h3
-                                    class="font-syne text-3xl md:text-4xl font-bold uppercase mb-2 md:mb-4 bg-gradient-to-br from-white to-white/40 text-transparent bg-clip-text">
-                                    Expense Tracker</h3>
-                                <p class="font-inter text-white/50 font-light mb-6 md:mb-8 text-sm md:text-base">
-                                    Personal finance tool crafted to log daily expenditures and visualize budget limits
-                                    with precision.</p>
-                                <a href="https://krishna7672.github.io/smart-expense-tracker/" target="_blank"
-                                    class="premium-btn premium-btn-solid w-max inline-flex cursor-hover magnetic"><span
-                                        class="relative z-10 font-syne uppercase text-[10px] md:text-xs font-bold tracking-[0.2em]">Launch
-                                        App</span></a>
+                        </div>
+
+                        <!-- ================= PROJECT 02: SBI Bank Queue System ================= -->
+                        <div class="project-card flex flex-col rounded-2xl glass-card tilt-card group"
+                            data-category="pos">
+                            <div class="inner-glare"></div>
+                            
+                            <div class="project-media-wrap h-52 relative border-b border-white/5 flex items-center justify-center p-6 bg-gradient-to-br from-[#0c2340]/40 via-[#0d1117] to-[#060709]">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                                        BANKING PLATFORM
+                                    </span>
+                                </div>
+                                <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                    <a href="https://github.com/Krishna7672/Bankqueue-managment-system" target="_blank"
+                                        class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:text-white border border-white/10 hover:border-[#10b981] transition-colors"
+                                        title="View Source on GitHub">
+                                        <i class="fab fa-github text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="text-center group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fas fa-university text-5xl text-blue-400 drop-shadow-[0_0_20px_rgba(59,130,246,0.5)] mb-3"></i>
+                                    <div class="font-syne font-bold text-white text-lg tracking-wider">SBI e-TOKEN QUEUE</div>
+                                    <div class="font-mono text-[10px] text-white/50">BRANCH WORKFLOW MANAGEMENT</div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                        <span class="font-mono text-xs text-blue-400 uppercase tracking-wider">State Bank of India // Queue</span>
+                                    </div>
+                                    <h3 class="font-syne text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+                                        SBI Branch e-Token System
+                                    </h3>
+                                    <p class="font-inter text-white/60 text-sm font-light mb-6 line-clamp-3">
+                                        Modeled directly after State Bank of India brand guidelines and Grahak Mitra branch workflows. Generates service e-Tokens, displays live token counters, and directs customer queue routing.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="tech-pill"><i class="fab fa-react text-blue-400"></i> React 18</span>
+                                        <span class="tech-pill">Vite 6</span>
+                                        <span class="tech-pill">Tailwind CSS</span>
+                                        <span class="tech-pill">State Router</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                        <a href="https://bankqueue-managment-system.vercel.app" target="_blank"
+                                            class="inline-flex items-center gap-2 font-syne text-xs uppercase tracking-widest font-bold text-white group-hover:text-blue-400 transition-colors cursor-hover">
+                                            <span>Launch Live App</span>
+                                            <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                        </a>
+                                        <a href="https://github.com/Krishna7672/Bankqueue-managment-system" target="_blank"
+                                            class="font-mono text-xs text-white/50 hover:text-white transition-colors cursor-hover">
+                                            <span>Source Code</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= PROJECT 03: Gesture-Controlled PPT ================= -->
+                        <div class="project-card flex flex-col rounded-2xl glass-card tilt-card group"
+                            data-category="ai">
+                            <div class="inner-glare"></div>
+                            
+                            <div class="project-media-wrap h-52 relative border-b border-white/5 flex items-center justify-center p-6 bg-gradient-to-br from-[#4c1d95]/30 via-[#0d1117] to-[#060709]">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                        COMPUTER VISION
+                                    </span>
+                                </div>
+                                <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                    <a href="https://github.com/Krishna7672/gestures-based-ppt" target="_blank"
+                                        class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:text-white border border-white/10 hover:border-[#10b981] transition-colors"
+                                        title="View Source on GitHub">
+                                        <i class="fab fa-github text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="text-center group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fas fa-hand-paper text-5xl text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.5)] mb-3"></i>
+                                    <div class="font-syne font-bold text-white text-lg tracking-wider">GESTURE PPT</div>
+                                    <div class="font-mono text-[10px] text-white/50">TOUCHLESS AI NAVIGATION</div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                                        <span class="font-mono text-xs text-purple-400 uppercase tracking-wider">Computer Vision // WebCam</span>
+                                    </div>
+                                    <h3 class="font-syne text-2xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
+                                        AI Gesture-Based PPT
+                                    </h3>
+                                    <p class="font-inter text-white/60 text-sm font-light mb-6 line-clamp-3">
+                                        Touchless presentation controller powered by real-time computer vision and webcam hand tracking. Swipe slides, zoom into visuals, and control a virtual laser pointer through intuitive gestures.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="tech-pill">JavaScript</span>
+                                        <span class="tech-pill">Hand Tracking</span>
+                                        <span class="tech-pill">Camera API</span>
+                                        <span class="tech-pill">Zero Latency</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                        <a href="https://gestures-based-ppt.vercel.app" target="_blank"
+                                            class="inline-flex items-center gap-2 font-syne text-xs uppercase tracking-widest font-bold text-white group-hover:text-purple-400 transition-colors cursor-hover">
+                                            <span>Launch Live App</span>
+                                            <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                        </a>
+                                        <a href="https://github.com/Krishna7672/gestures-based-ppt" target="_blank"
+                                            class="font-mono text-xs text-white/50 hover:text-white transition-colors cursor-hover">
+                                            <span>Source Code</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= PROJECT 04: Smart Expense Tracker ================= -->
+                        <div class="project-card flex flex-col rounded-2xl glass-card tilt-card group"
+                            data-category="fintech">
+                            <div class="inner-glare"></div>
+                            
+                            <div class="project-media-wrap h-52 relative border-b border-white/5 flex items-center justify-center p-6 bg-gradient-to-br from-[#1e3a8a]/30 via-[#0d1117] to-[#060709]">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                                        3D VISUALIZATION
+                                    </span>
+                                </div>
+                                <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                    <a href="https://github.com/Krishna7672/smart-expense-tracker" target="_blank"
+                                        class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:text-white border border-white/10 hover:border-[#10b981] transition-colors"
+                                        title="View Source on GitHub">
+                                        <i class="fab fa-github text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="text-center group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fas fa-chart-pie text-5xl text-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.5)] mb-3"></i>
+                                    <div class="font-syne font-bold text-white text-lg tracking-wider">EXPENSE TRACKER</div>
+                                    <div class="font-mono text-[10px] text-white/50">THREE.JS GLASSMORPHISM</div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                                        <span class="font-mono text-xs text-cyan-400 uppercase tracking-wider">FinTech // Three.js 3D</span>
+                                    </div>
+                                    <h3 class="font-syne text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">
+                                        Smart Expense Tracker
+                                    </h3>
+                                    <p class="font-inter text-white/60 text-sm font-light mb-6 line-clamp-3">
+                                        Modern personal finance dashboard rendered with dynamic 3D glassmorphism and Three.js background visuals. Offers expenditure limits, category splits, and balance health indicators.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="tech-pill">Three.js</span>
+                                        <span class="tech-pill">Glassmorphism</span>
+                                        <span class="tech-pill">JavaScript</span>
+                                        <span class="tech-pill">Analytics</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                        <a href="https://krishna7672.github.io/smart-expense-tracker/" target="_blank"
+                                            class="inline-flex items-center gap-2 font-syne text-xs uppercase tracking-widest font-bold text-white group-hover:text-cyan-400 transition-colors cursor-hover">
+                                            <span>Launch Live App</span>
+                                            <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                        </a>
+                                        <a href="https://github.com/Krishna7672/smart-expense-tracker" target="_blank"
+                                            class="font-mono text-xs text-white/50 hover:text-white transition-colors cursor-hover">
+                                            <span>Source Code</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= PROJECT 05: Store Dashboard ================= -->
+                        <div class="project-card flex flex-col rounded-2xl glass-card tilt-card group"
+                            data-category="fintech">
+                            <div class="inner-glare"></div>
+                            
+                            <div class="project-media-wrap h-52 relative border-b border-white/5 flex items-center justify-center p-6 bg-gradient-to-br from-[#701a75]/30 via-[#0d1117] to-[#060709]">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-pink-500/20 text-pink-300 border border-pink-500/30">
+                                        INVENTORY SUITE
+                                    </span>
+                                </div>
+                                <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                    <a href="https://github.com/Krishna7672/store-dashboard" target="_blank"
+                                        class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:text-white border border-white/10 hover:border-[#10b981] transition-colors"
+                                        title="View Source on GitHub">
+                                        <i class="fab fa-github text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="text-center group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fas fa-boxes-stacked text-5xl text-pink-400 drop-shadow-[0_0_20px_rgba(244,114,182,0.5)] mb-3"></i>
+                                    <div class="font-syne font-bold text-white text-lg tracking-wider">STORE DASHBOARD</div>
+                                    <div class="font-mono text-[10px] text-white/50">STOCK & REWARDS LEDGER</div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-pink-400"></span>
+                                        <span class="font-mono text-xs text-pink-400 uppercase tracking-wider">Full Stack // Retail Ledger</span>
+                                    </div>
+                                    <h3 class="font-syne text-2xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors">
+                                        Retail Store Dashboard
+                                    </h3>
+                                    <p class="font-inter text-white/60 text-sm font-light mb-6 line-clamp-3">
+                                        Robust inventory management and customer loyalty point architecture engineered for scalable client management, product turnover analysis, and sales velocity logs.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="tech-pill">JavaScript</span>
+                                        <span class="tech-pill">Inventory Logic</span>
+                                        <span class="tech-pill">Customer Ledger</span>
+                                        <span class="tech-pill">HTML5/CSS3</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                        <a href="https://krishna7672.github.io/store-dashboard/" target="_blank"
+                                            class="inline-flex items-center gap-2 font-syne text-xs uppercase tracking-widest font-bold text-white group-hover:text-pink-400 transition-colors cursor-hover">
+                                            <span>Launch Live App</span>
+                                            <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                        </a>
+                                        <a href="https://github.com/Krishna7672/store-dashboard" target="_blank"
+                                            class="font-mono text-xs text-white/50 hover:text-white transition-colors cursor-hover">
+                                            <span>Source Code</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= PROJECT 06: Sachin Kirana ================= -->
+                        <div class="project-card flex flex-col rounded-2xl glass-card tilt-card group"
+                            data-category="pos">
+                            <div class="inner-glare"></div>
+                            
+                            <div class="project-media-wrap h-52 relative border-b border-white/5 flex items-center justify-center p-6 bg-gradient-to-br from-[#78350f]/30 via-[#0d1117] to-[#060709]">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                        FAST BILLING
+                                    </span>
+                                </div>
+                                <div class="absolute top-4 right-4 z-10 flex gap-2">
+                                    <a href="https://github.com/Krishna7672/sachinkirana" target="_blank"
+                                        class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:text-white border border-white/10 hover:border-[#10b981] transition-colors"
+                                        title="View Source on GitHub">
+                                        <i class="fab fa-github text-sm"></i>
+                                    </a>
+                                </div>
+                                <div class="text-center group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fas fa-basket-shopping text-5xl text-amber-400 drop-shadow-[0_0_20px_rgba(245,158,11,0.5)] mb-3"></i>
+                                    <div class="font-syne font-bold text-white text-lg tracking-wider">SACHIN KIRANA</div>
+                                    <div class="font-mono text-[10px] text-white/50">LIGHTWEIGHT STORE PORTAL</div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                        <span class="font-mono text-xs text-amber-400 uppercase tracking-wider">Retail // Rapid Checkout</span>
+                                    </div>
+                                    <h3 class="font-syne text-2xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors">
+                                        Sachin Kirana Retail Portal
+                                    </h3>
+                                    <p class="font-inter text-white/60 text-sm font-light mb-6 line-clamp-3">
+                                        Lightweight, ultra-fast web catalog and checkout interface created for neighborhood grocery storefronts, featuring quick price lookups and instant receipt calculation.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="tech-pill">JavaScript</span>
+                                        <span class="tech-pill">Responsive UI</span>
+                                        <span class="tech-pill">Fast Billing</span>
+                                        <span class="tech-pill">Vercel Edge</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                                        <a href="https://sachinkirana.vercel.app" target="_blank"
+                                            class="inline-flex items-center gap-2 font-syne text-xs uppercase tracking-widest font-bold text-white group-hover:text-amber-400 transition-colors cursor-hover">
+                                            <span>Launch Live App</span>
+                                            <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                        </a>
+                                        <a href="https://github.com/Krishna7672/sachinkirana" target="_blank"
+                                            class="font-mono text-xs text-white/50 hover:text-white transition-colors cursor-hover">
+                                            <span>Source Code</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================================
+                 TECHNICAL SKILLS & ARCHITECTURE MATRIX
+                 ================================================================= -->
+            <section id="skills" class="w-full py-24 px-6 md:px-12 relative z-10 bg-[#080a0e] border-t border-white/5">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal-up">
+                        <div>
+                            <span class="font-mono text-xs md:text-sm text-[#10b981] tracking-[0.3em] uppercase block mb-3">
+                                // 02. Capabilities & Stack
+                            </span>
+                            <h2 class="font-syne text-4xl sm:text-5xl md:text-7xl font-extrabold uppercase leading-none text-white">
+                                TECHNICAL<br><span class="border-text">STACK.</span>
+                            </h2>
+                        </div>
+                        <p class="font-inter text-white/50 text-sm md:text-base max-w-md font-light">
+                            Engineered with clean architectural discipline across systems programming, interactive frontend interfaces, and artificial intelligence.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                        <!-- Core Languages -->
+                        <div class="p-6 md:p-8 rounded-2xl glass-card tilt-card flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-[#10b981]/10 border border-[#10b981]/30 flex items-center justify-center text-[#10b981] text-xl mb-6">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <h3 class="font-syne text-xl font-bold text-white mb-2">Core Languages</h3>
+                                <p class="font-inter text-xs text-white/50 mb-6">Foundations of compute and algorithms.</p>
+                                <ul class="space-y-3 font-mono text-xs text-white/80">
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-terminal text-[#10b981]"></i> C++</span>
+                                        <span class="text-white/40">DSA & Core</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fab fa-python text-yellow-400"></i> Python</span>
+                                        <span class="text-white/40">AI & Scripts</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fab fa-js text-yellow-300"></i> TypeScript / JS</span>
+                                        <span class="text-white/40">ES6+ Async</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fab fa-html5 text-orange-400"></i> HTML5 / CSS3</span>
+                                        <span class="text-white/40">Semantic</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1">
+                                        <span class="flex items-center gap-2"><i class="fab fa-php text-indigo-400"></i> PHP</span>
+                                        <span class="text-white/40">Backend</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Frontend Engineering -->
+                        <div class="p-6 md:p-8 rounded-2xl glass-card tilt-card flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl mb-6">
+                                    <i class="fab fa-react"></i>
+                                </div>
+                                <h3 class="font-syne text-xl font-bold text-white mb-2">Frontend & UI</h3>
+                                <p class="font-inter text-xs text-white/50 mb-6">Interactive, fluid client architectures.</p>
+                                <ul class="space-y-3 font-mono text-xs text-white/80">
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fab fa-react text-blue-400"></i> React 18</span>
+                                        <span class="text-white/40">Hooks / State</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-wind text-teal-400"></i> Tailwind CSS</span>
+                                        <span class="text-white/40">Utility Styling</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-play text-green-400"></i> GSAP 3.12</span>
+                                        <span class="text-white/40">ScrollTrigger</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-cube text-purple-400"></i> Three.js</span>
+                                        <span class="text-white/40">3D WebGL</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1">
+                                        <span class="flex items-center gap-2"><i class="fas fa-water text-cyan-400"></i> Lenis Scroll</span>
+                                        <span class="text-white/40">Smooth Momentum</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- AI & Computer Vision -->
+                        <div class="p-6 md:p-8 rounded-2xl glass-card tilt-card flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl mb-6">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h3 class="font-syne text-xl font-bold text-white mb-2">AI & Vision</h3>
+                                <p class="font-inter text-xs text-white/50 mb-6">Next-generation human interfaces.</p>
+                                <ul class="space-y-3 font-mono text-xs text-white/80">
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-hand-sparkles text-purple-400"></i> Hand Gestures</span>
+                                        <span class="text-white/40">Touchless UI</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-camera text-pink-400"></i> Computer Vision</span>
+                                        <span class="text-white/40">WebCam / CV</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-wand-magic-sparkles text-yellow-400"></i> Generative AI</span>
+                                        <span class="text-white/40">LLM Prompting</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-bolt text-amber-400"></i> Vibe Coding</span>
+                                        <span class="text-white/40">Certified</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1">
+                                        <span class="flex items-center gap-2"><i class="fas fa-microchip text-blue-400"></i> AI Integration</span>
+                                        <span class="text-white/40">Full Stack</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Data & Architecture -->
+                        <div class="p-6 md:p-8 rounded-2xl glass-card tilt-card flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-6">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <h3 class="font-syne text-xl font-bold text-white mb-2">Data & Systems</h3>
+                                <p class="font-inter text-xs text-white/50 mb-6">Resilient, cost-free operational models.</p>
+                                <ul class="space-y-3 font-mono text-xs text-white/80">
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-hard-drive text-emerald-400"></i> Dexie / IndexedDB</span>
+                                        <span class="text-white/40">Local-First</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-wifi text-red-400"></i> Offline PWA</span>
+                                        <span class="text-white/40">100% Uptime</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fab fa-git-alt text-orange-500"></i> Git & GitHub</span>
+                                        <span class="text-white/40">Version Control</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1 border-b border-white/5">
+                                        <span class="flex items-center gap-2"><i class="fas fa-cloud text-blue-400"></i> Vercel Edge</span>
+                                        <span class="text-white/40">CI/CD Deploy</span>
+                                    </li>
+                                    <li class="flex items-center justify-between py-1">
+                                        <span class="flex items-center gap-2"><i class="fas fa-network-wired text-cyan-400"></i> REST APIs</span>
+                                        <span class="text-white/40">Zero-Cost Arch</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================================
+                 ABOUT & ENGINEERING PHILOSOPHY SECTION
+                 ================================================================= -->
+            <section id="about" class="w-full py-24 md:py-32 px-6 md:px-12 relative z-10 bg-[#060709]">
+                <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                    
+                    <!-- Bio & Principles -->
+                    <div class="w-full lg:w-1/2">
+                        <span class="font-mono text-xs md:text-sm text-[#10b981] tracking-[0.3em] uppercase block mb-3">
+                            // 03. Engineering Philosophy
+                        </span>
+                        <h2 class="font-syne text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase leading-none text-white mb-6">
+                            REFINED BY CODE.<br><span class="border-text">DRIVEN BY SPEED.</span>
+                        </h2>
+
+                        <p class="font-inter text-white/70 text-base md:text-lg font-light leading-relaxed mb-6">
+                            I approach software development with the rigorous discipline of an automotive engineer: every line of code is considered, every micro-interaction is tuned for maximum frame rate, and every system is engineered for uncompromising stability.
+                        </p>
+
+                        <p class="font-inter text-white/50 text-sm md:text-base font-light leading-relaxed mb-8">
+                            Whether architecting zero-subscription grocery POS engines using IndexedDB, building State Bank of India workflow platforms, or creating webcam-powered computer vision gesture controls, I combine technical depth in C++ and Python with modern frontend design elegance.
+                        </p>
+
+                        <!-- Engineering Pillars -->
+                        <div class="grid grid-cols-2 gap-6 pt-6 border-t border-white/10">
+                            <div>
+                                <h4 class="font-syne text-2xl font-bold text-white mb-1">01</h4>
+                                <span class="font-mono text-xs uppercase tracking-wider text-[#10b981] font-semibold">Local-First Resilience</span>
+                                <p class="font-inter text-xs text-white/40 mt-1 font-light">Zero paid APIs or cloud dependencies for mission-critical retail.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-syne text-2xl font-bold text-white mb-1">02</h4>
+                                <span class="font-mono text-xs uppercase tracking-wider text-[#10b981] font-semibold">Human-AI Interface</span>
+                                <p class="font-inter text-xs text-white/40 mt-1 font-light">Contactless gesture tracking and generative workflow systems.</p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
 
-            <section id="certifications"
-                class="cert-scroll-wrapper min-h-screen w-full bg-[#050505] overflow-hidden relative border-t border-white/5 flex flex-col md:flex-row md:items-center py-16 md:py-0">
-                <div class="md:absolute md:top-10 md:left-12 z-20 mix-blend-difference text-white mb-8 px-6 md:px-0">
-                    <span class="font-inter tracking-[0.4em] uppercase text-xs">Credentials</span>
-                </div>
-
-                <div class="cert-horizontal-container flex flex-col md:flex-row h-auto md:h-full w-full md:w-[300vw]">
-
-                    <div
-                        class="cert-horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col justify-center px-6 md:px-24 py-12 md:py-0">
-                        <h2
-                            class="font-syne text-5xl md:text-[8vw] font-bold uppercase leading-none text-white drop-shadow-2xl">
-                            Certified<br><span class="border-text text-transparent">Performance.</span></h2>
-                        <p
-                            class="font-inter text-[#66c285] tracking-[0.2em] uppercase mt-4 text-[10px] md:text-sm hidden md:block">
-                            Scroll to verify <i class="fas fa-arrow-right ml-2 animate-pulse"></i></p>
-                    </div>
-
-                    <div
-                        class="cert-horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col md:flex-row items-center justify-center px-6 md:px-24 gap-6 md:gap-12 py-6 md:py-0">
-                        <div
-                            class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px] cert-card floating-card">
+                    <!-- Holographic Profile Visual -->
+                    <div class="w-full lg:w-1/2 flex justify-center">
+                        <div class="relative w-full max-w-md aspect-[4/5] rounded-3xl glass-card tilt-card p-3 border border-white/10 group">
                             <div class="inner-glare"></div>
-                            <img src="gen.jpeg"
-                                class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-[0_10px_20px_rgba(255,255,255,0.05)] group-hover:scale-110 group-hover:rotate-2 transition-all duration-700">
-                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">Gen AI</h4>
-                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">Sololearn
-                            </p>
-                        </div>
-                        <div class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px] cert-card floating-card"
-                            style="animation-delay: 0.3s;">
-                            <div class="inner-glare"></div>
-                            <img src="Ai.jpeg"
-                                class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-[0_10px_20px_rgba(255,255,255,0.05)] group-hover:scale-110 group-hover:-rotate-2 transition-all duration-700">
-                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">AI Basics</h4>
-                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">UniAthena &
-                                CIQ</p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="cert-horizontal-item w-full md:w-[100vw] h-auto md:h-full flex flex-col md:flex-row items-center justify-center px-6 md:px-24 gap-6 md:gap-12 py-6 md:py-0">
-                        <div
-                            class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px] cert-card floating-card">
-                            <div class="inner-glare"></div>
-                            <img src="cpp.jpeg"
-                                class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-[0_10px_20px_rgba(255,255,255,0.05)] group-hover:scale-110 group-hover:rotate-2 transition-all duration-700">
-                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">Intro to C++</h4>
-                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">Sololearn
-                            </p>
-                        </div>
-                        <div class="glass-card tilt-card p-6 md:p-8 rounded-xl flex flex-col items-center text-center cursor-hover overflow-hidden group w-full md:w-[400px] cert-card floating-card"
-                            style="animation-delay: 0.5s;">
-                            <div class="inner-glare"></div>
-                            <img src="vibe.jpeg"
-                                class="h-32 md:h-48 object-contain mb-4 md:mb-6 filter drop-shadow-[0_10px_20px_rgba(255,255,255,0.05)] group-hover:scale-110 group-hover:-rotate-2 transition-all duration-700">
-                            <h4 class="font-syne font-bold text-white text-lg md:text-xl uppercase">Vibe Coding</h4>
-                            <p class="font-inter text-[10px] md:text-xs tracking-widest text-[#66c285] mt-2">Sololearn
-                            </p>
+                            
+                            <!-- Profile Image Frame -->
+                            <div class="relative w-full h-full rounded-2xl overflow-hidden bg-[#0d0f14]">
+                                <img src="kris.jpeg" alt="Krushna Jain"
+                                    class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700">
+                                
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#060709] via-transparent to-transparent opacity-80"></div>
+                                
+                                <!-- Floating Profile Card Details -->
+                                <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-[#060709]/80 backdrop-blur-xl border border-white/10">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-syne font-bold text-white text-base">Krushna Jain</span>
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-[#10b981]/20 text-[#6ee7b7] border border-[#10b981]/30">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+                                            Active Engineer
+                                        </span>
+                                    </div>
+                                    <div class="font-mono text-xs text-white/50">Full Stack & Creative Technologist</div>
+                                    <div class="flex items-center gap-3 mt-3 pt-3 border-t border-white/10 text-xs text-white/70">
+                                        <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-[#10b981]"></i> India</span>
+                                        <span class="flex items-center gap-1"><i class="fas fa-envelope text-[#10b981]"></i> kj9013866@gmail.com</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </section>
 
-            <section id="contact"
-                class="w-full min-h-screen bg-white text-[#050505] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
-                <p
-                    class="font-inter font-bold tracking-[0.3em] md:tracking-[0.5em] uppercase text-[10px] md:text-xs mb-6 md:mb-8 text-[#66c285] scrub-up">
-                    Ready for the future?</p>
-                <a href="mailto:kj9013866@gmail.com"
-                    class="font-syne font-black text-4xl sm:text-5xl md:text-[10vw] leading-[0.9] uppercase tracking-tighter hover:text-[#66c285] transition-colors cursor-hover scrub-scale magnetic inline-block px-4 py-2">
-                    INITIATE<br>PROJECT.
-                </a>
-                <div
-                    class="mt-8 md:mt-12 flex flex-col md:flex-row gap-4 md:gap-8 font-inter text-[10px] md:text-sm font-bold uppercase tracking-widest scrub-up">
-                    <a href="https://github.com/Krishna7672" target="_blank"
-                        class="cursor-hover hover:text-[#66c285] transition-colors magnetic p-2">GitHub</a>
-                    <a href="https://www.linkedin.com/in/krushna-jain-56156b370" target="_blank"
-                        class="cursor-hover hover:text-[#66c285] transition-colors magnetic p-2">LinkedIn</a>
-                    <a href="https://www.instagram.com/krishnajain7621" target="_blank"
-                        class="cursor-hover hover:text-[#66c285] transition-colors magnetic p-2">Instagram</a>
+            <!-- =================================================================
+                 CREDENTIALS & INDUSTRY CERTIFICATIONS
+                 ================================================================= -->
+            <section id="credentials" class="w-full py-24 md:py-32 px-6 md:px-12 relative z-10 bg-[#080a0e] border-t border-white/5">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal-up">
+                        <div>
+                            <span class="font-mono text-xs md:text-sm text-[#10b981] tracking-[0.3em] uppercase block mb-3">
+                                // 04. Verified Qualifications
+                            </span>
+                            <h2 class="font-syne text-4xl sm:text-5xl md:text-7xl font-extrabold uppercase leading-none text-white">
+                                CERTIFIED<br><span class="border-text">CREDENTIALS.</span>
+                            </h2>
+                        </div>
+                        <p class="font-inter text-white/50 text-sm md:text-base max-w-md font-light">
+                            Officially verified industry certifications across Generative AI, Systems Programming in C++, and Applied Artificial Intelligence. Click any certificate to inspect.
+                        </p>
+                    </div>
+
+                    <!-- Certificate Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                        <!-- Cert 01: Gen AI -->
+                        <div class="cert-card p-6 rounded-2xl glass-card tilt-card flex flex-col items-center text-center cursor-hover group">
+                            <div class="inner-glare"></div>
+                            <div class="w-full h-44 rounded-xl overflow-hidden bg-black/40 p-2 mb-4 relative flex items-center justify-center">
+                                <img src="gen.jpeg" alt="Generative AI Certificate"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-xl backdrop-blur-xs">
+                                    <span class="px-3 py-1.5 rounded-full text-xs font-mono bg-white text-black font-semibold flex items-center gap-1.5 shadow-lg">
+                                        <i class="fas fa-search-plus text-xs"></i> Inspect
+                                    </span>
+                                </div>
+                            </div>
+                            <h4 class="cert-title font-syne font-bold text-white text-lg uppercase tracking-wide">Generative AI</h4>
+                            <p class="cert-issuer font-mono text-xs text-[#10b981] mt-1">Sololearn Certified</p>
+                        </div>
+
+                        <!-- Cert 02: AI Basics -->
+                        <div class="cert-card p-6 rounded-2xl glass-card tilt-card flex flex-col items-center text-center cursor-hover group">
+                            <div class="inner-glare"></div>
+                            <div class="w-full h-44 rounded-xl overflow-hidden bg-black/40 p-2 mb-4 relative flex items-center justify-center">
+                                <img src="Ai.jpeg" alt="AI Basics Certificate"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-xl backdrop-blur-xs">
+                                    <span class="px-3 py-1.5 rounded-full text-xs font-mono bg-white text-black font-semibold flex items-center gap-1.5 shadow-lg">
+                                        <i class="fas fa-search-plus text-xs"></i> Inspect
+                                    </span>
+                                </div>
+                            </div>
+                            <h4 class="cert-title font-syne font-bold text-white text-lg uppercase tracking-wide">AI Basics</h4>
+                            <p class="cert-issuer font-mono text-xs text-[#10b981] mt-1">UniAthena & CIQ</p>
+                        </div>
+
+                        <!-- Cert 03: Intro to C++ -->
+                        <div class="cert-card p-6 rounded-2xl glass-card tilt-card flex flex-col items-center text-center cursor-hover group">
+                            <div class="inner-glare"></div>
+                            <div class="w-full h-44 rounded-xl overflow-hidden bg-black/40 p-2 mb-4 relative flex items-center justify-center">
+                                <img src="cpp.jpeg" alt="Intro to C++ Certificate"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-xl backdrop-blur-xs">
+                                    <span class="px-3 py-1.5 rounded-full text-xs font-mono bg-white text-black font-semibold flex items-center gap-1.5 shadow-lg">
+                                        <i class="fas fa-search-plus text-xs"></i> Inspect
+                                    </span>
+                                </div>
+                            </div>
+                            <h4 class="cert-title font-syne font-bold text-white text-lg uppercase tracking-wide">Intro to C++</h4>
+                            <p class="cert-issuer font-mono text-xs text-[#10b981] mt-1">Sololearn Certified</p>
+                        </div>
+
+                        <!-- Cert 04: Vibe Coding -->
+                        <div class="cert-card p-6 rounded-2xl glass-card tilt-card flex flex-col items-center text-center cursor-hover group">
+                            <div class="inner-glare"></div>
+                            <div class="w-full h-44 rounded-xl overflow-hidden bg-black/40 p-2 mb-4 relative flex items-center justify-center">
+                                <img src="vibe.jpeg" alt="Vibe Coding Certificate"
+                                    class="max-h-full max-w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-xl backdrop-blur-xs">
+                                    <span class="px-3 py-1.5 rounded-full text-xs font-mono bg-white text-black font-semibold flex items-center gap-1.5 shadow-lg">
+                                        <i class="fas fa-search-plus text-xs"></i> Inspect
+                                    </span>
+                                </div>
+                            </div>
+                            <h4 class="cert-title font-syne font-bold text-white text-lg uppercase tracking-wide">Vibe Coding</h4>
+                            <p class="cert-issuer font-mono text-xs text-[#10b981] mt-1">Sololearn Certified</p>
+                        </div>
+
+                    </div>
                 </div>
             </section>
 
+            <!-- =================================================================
+                 CONTACT & COLLABORATION SECTION
+                 ================================================================= -->
+            <section id="contact" class="w-full py-24 md:py-36 px-6 md:px-12 relative z-10 bg-[#060709] border-t border-white/5">
+                <div class="max-w-6xl mx-auto">
+                    
+                    <div class="text-center mb-16 reveal-up">
+                        <span class="font-mono text-xs md:text-sm text-[#10b981] tracking-[0.3em] uppercase block mb-3">
+                            // 05. Let's Connect
+                        </span>
+                        <h2 class="font-syne text-4xl sm:text-6xl md:text-8xl font-black uppercase text-white tracking-tight leading-none mb-6">
+                            INITIATE<br><span class="border-text text-transparent">COLLABORATION.</span>
+                        </h2>
+                        <p class="font-inter text-white/60 text-sm md:text-lg max-w-xl mx-auto font-light">
+                            Looking for a high-impact software engineer to build resilient applications, interactive frontends, or local-first systems? Let's discuss your next breakthrough.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        
+                        <!-- Contact Form -->
+                        <div class="lg:col-span-7 p-8 md:p-10 rounded-3xl glass-card">
+                            <h3 class="font-syne text-2xl font-bold text-white mb-6">Send Direct Dispatch</h3>
+                            <form id="portfolioContactForm" class="space-y-6">
+                                <div>
+                                    <label class="block font-mono text-xs uppercase tracking-wider text-white/60 mb-2">Your Name</label>
+                                    <input type="text" id="senderName" required placeholder="e.g. Alex Morgan"
+                                        class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#10b981] transition-colors font-inter text-sm">
+                                </div>
+                                <div>
+                                    <label class="block font-mono text-xs uppercase tracking-wider text-white/60 mb-2">Your Email</label>
+                                    <input type="email" id="senderEmail" required placeholder="alex@company.com"
+                                        class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#10b981] transition-colors font-inter text-sm">
+                                </div>
+                                <div>
+                                    <label class="block font-mono text-xs uppercase tracking-wider text-white/60 mb-2">Message & Objective</label>
+                                    <textarea id="senderMessage" required rows="4" placeholder="Briefly describe your project, timeline, or inquiry..."
+                                        class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#10b981] transition-colors font-inter text-sm resize-none"></textarea>
+                                </div>
+                                <button type="submit"
+                                    class="btn-primary w-full cursor-hover magnetic">
+                                    <span>Transmit Message</span>
+                                    <i class="fas fa-paper-plane text-xs"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Direct Information Card -->
+                        <div class="lg:col-span-5 space-y-6">
+                            
+                            <!-- Email Card -->
+                            <div class="p-6 md:p-8 rounded-3xl glass-card">
+                                <span class="font-mono text-xs text-[#10b981] uppercase tracking-wider block mb-2">Direct Mail</span>
+                                <a href="mailto:kj9013866@gmail.com" class="font-syne text-xl md:text-2xl font-bold text-white hover:text-[#10b981] transition-colors block mb-4">
+                                    kj9013866@gmail.com
+                                </a>
+                                <button class="copy-email-btn inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider bg-white/5 hover:bg-[#10b981] hover:text-black border border-white/10 transition-all cursor-hover magnetic">
+                                    <i class="far fa-copy"></i>
+                                    <span>Copy Email Address</span>
+                                </button>
+                            </div>
+
+                            <!-- Social Networks -->
+                            <div class="p-6 md:p-8 rounded-3xl glass-card">
+                                <span class="font-mono text-xs text-[#10b981] uppercase tracking-wider block mb-4">Verified Channels</span>
+                                <div class="space-y-3 font-mono text-xs">
+                                    <a href="https://github.com/Krishna7672" target="_blank" rel="noopener noreferrer"
+                                        class="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-[#10b981]/50 hover:bg-white/5 transition-all text-white/80 hover:text-white group cursor-hover">
+                                        <span class="flex items-center gap-3">
+                                            <i class="fab fa-github text-lg text-white"></i>
+                                            <span>GitHub / Krishna7672</span>
+                                        </span>
+                                        <i class="fas fa-arrow-up-right-from-square text-[10px] text-white/40 group-hover:text-[#10b981]"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/krushna-jain-56156b370" target="_blank" rel="noopener noreferrer"
+                                        class="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-[#10b981]/50 hover:bg-white/5 transition-all text-white/80 hover:text-white group cursor-hover">
+                                        <span class="flex items-center gap-3">
+                                            <i class="fab fa-linkedin-in text-lg text-blue-400"></i>
+                                            <span>LinkedIn / Krushna Jain</span>
+                                        </span>
+                                        <i class="fas fa-arrow-up-right-from-square text-[10px] text-white/40 group-hover:text-[#10b981]"></i>
+                                    </a>
+                                    <a href="https://www.instagram.com/krishnajain7621" target="_blank" rel="noopener noreferrer"
+                                        class="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-[#10b981]/50 hover:bg-white/5 transition-all text-white/80 hover:text-white group cursor-hover">
+                                        <span class="flex items-center gap-3">
+                                            <i class="fab fa-instagram text-lg text-pink-400"></i>
+                                            <span>Instagram / @krishnajain7621</span>
+                                        </span>
+                                        <i class="fas fa-arrow-up-right-from-square text-[10px] text-white/40 group-hover:text-[#10b981]"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================================
+                 FOOTER
+                 ================================================================= -->
+            <footer class="w-full py-12 px-6 md:px-12 border-t border-white/10 bg-[#040507] text-white/60">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 font-mono text-xs">
+                    <div>
+                        © 2026 Krushna Jain. Engineered for performance and aesthetic precision.
+                    </div>
+                    <div class="flex items-center gap-8">
+                        <a href="#work" class="hover:text-white transition-colors cursor-hover">Work</a>
+                        <a href="#skills" class="hover:text-white transition-colors cursor-hover">Skills</a>
+                        <a href="#about" class="hover:text-white transition-colors cursor-hover">About</a>
+                        <a href="#credentials" class="hover:text-white transition-colors cursor-hover">Credentials</a>
+                        <a href="#contact" class="hover:text-white transition-colors cursor-hover">Contact</a>
+                        <a href="#" class="hover:text-[#10b981] transition-colors cursor-hover"><i class="fas fa-arrow-up"></i> Top</a>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </main>
+
+    <!-- =================================================================
+         CERTIFICATE LIGHTBOX MODAL
+         ================================================================= -->
+    <div id="certModal"
+        class="fixed inset-0 z-[999999] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 inactive">
+        <div class="relative max-w-4xl w-full bg-[#0d0f14] border border-white/15 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col items-center">
+            <button id="certModalClose"
+                class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-lg transition-colors cursor-hover"
+                title="Close Modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="w-full max-h-[75vh] flex items-center justify-center overflow-hidden rounded-xl bg-black/50 p-2 mb-6">
+                <img id="certModalImg" src="" alt="Certificate Preview" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+            </div>
+            <div class="text-center">
+                <h3 id="certModalTitle" class="font-syne text-2xl font-bold text-white uppercase tracking-wider mb-1"></h3>
+                <p id="certModalIssuer" class="font-mono text-xs text-[#10b981] uppercase tracking-widest"></p>
+            </div>
         </div>
     </div>
 
-    <div class="fixed inset-0 z-[9998] pointer-events-none opacity-[0.03] mix-blend-overlay"
-        style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');">
+    <!-- =================================================================
+         INTERACTIVE TOAST NOTIFICATION
+         ================================================================= -->
+    <div id="toastNotification"
+        class="fixed bottom-6 left-6 z-[999999] px-5 py-3 rounded-full bg-[#0d0f14]/90 backdrop-blur-xl border border-[#10b981]/40 shadow-2xl flex items-center gap-3 text-xs font-mono text-white">
+        <i class="fas fa-check-circle text-[#10b981]"></i>
+        <span class="toast-message">Email address copied to clipboard!</span>
     </div>
 
+    <!-- Core Scripts -->
     <script src="script.js"></script>
 </body>
 

@@ -1,0 +1,4 @@
+backup_pre_redesign/
+*.txt
+.DS_Store
+Thumbs.db
